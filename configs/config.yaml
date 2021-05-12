@@ -1,0 +1,48 @@
+root_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+
+## Chest14: /home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize
+## CheXpert: /home/demet/Desktop/CheXpert-v1.0-small
+
+mode: "train"
+
+data:
+  size: [320, 320]
+
+model:
+  model_type: "resnet50"
+  number_classes: 15
+
+train:
+  name: "chest14"
+  data_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+  start_epoch: 0
+  end_epoch: 21
+  batch: 32
+  num_workers: 0
+  chkpnt_step: 5
+  loss:
+    classification:
+    metric:
+
+  learning_rate:
+    momentum: 0.9
+    decay: 0.5
+    base_rate: 0.0001
+    steps: 10
+
+
+test:
+  name: "chest14"
+  dataset_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/resnetsa_ch14_e1_lr0.0001_bs2.pth"
+  batch: 2
+  num_workers: 0
+
+
+experiment_name: "resnetsa_ch14_e1_lr0.0001_bs2.pth"
+log_dir: "/home/demet/PycharmProjects/thesis/training_logs"
+
+
+
+  # batchsize = [64]  # [64, 128, 256, 512]
+  # learningrate = [1e-3, 1e-4, 1e-5]
