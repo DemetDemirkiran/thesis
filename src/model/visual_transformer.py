@@ -7,12 +7,11 @@ class ViT(nn.Module):
         super(ViT, self).__init__()
 
         self.model = timm.create_model('vit_base_patch16_224', pretrained=True)
-        self.model.head = nn.Linear(2048, num_classes)
+        self.model.head = nn.Linear(self.model.head.in_features, num_classes)
 
     def forward(self, img):
 
         img = self.model(img)
-        img = self.model.head(img.squeeze())
 
         return img
 

@@ -1,4 +1,4 @@
-root_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+root_path: "/home/demet/Desktop/CheXpert-v1.0-small"
 
 ## Chest14: /home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize
 ## CheXpert: /home/demet/Desktop/CheXpert-v1.0-small
@@ -6,15 +6,18 @@ root_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
 mode: "train"
 
 data:
-  size: [320, 320]
+  size: [224, 224]
 
 model:
-  model_type: "resnet50"
+  model_type: "resnet_sa"
   number_classes: 15
 
+## chex_small
+## chest14
+
 train:
-  name: "chest14"
-  data_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+  name: "chex_small"
+  data_path: "/home/demet/Desktop/CheXpert-v1.0-small"
   start_epoch: 0
   end_epoch: 21
   batch: 32
@@ -30,6 +33,10 @@ train:
     base_rate: 0.0001
     steps: 10
 
+## Chest14: /home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize
+## CheXpert: /home/demet/Desktop/CheXpert-v1.0-small
+## chex_small
+## chest14
 
 test:
   name: "chest14"

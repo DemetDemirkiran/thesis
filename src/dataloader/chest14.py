@@ -75,7 +75,7 @@ class XrayLoader14(data.Dataset):
         self.config = config
         self.mode = self.config['mode']
         self.root = self.config['root_path']
-        self.transform = transforms.Compose([transforms.ToTensor(), transforms.Resize(256)])
+        self.transform = transforms.Compose([transforms.ToTensor()])
         self.train_path = os.path.join(self.root, 'train_val_list.txt')
         self.test_path = os.path.join(self.root, 'test_list.txt')
         self.meta_path = os.path.join(self.root, 'Data_Entry_2017_v2020.csv')
