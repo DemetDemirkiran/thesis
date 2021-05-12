@@ -14,7 +14,7 @@ class ResNet50(nn.Module):
         super(ResNet50, self).__init__()
 
         self.encoder = nn.Sequential(*list(models.resnet50(pretrained=True).children())[:-1])
-        self.fc = nn.Linear(2048, num_classes)
+        self.fc = nn.Linear(self.model.head.in_features, num_classes)
 
     def forward(self, img):
 
