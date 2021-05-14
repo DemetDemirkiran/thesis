@@ -24,7 +24,7 @@ from sklearn.linear_model import RidgeClassifierCV
 
 ## binary case & roc_auc_score
 from sklearn.linear_model import LogisticRegression
-
+from src.loss.wcel import CEL, WCEL
 
 class Training:
     def __init__(self, config):
@@ -66,7 +66,8 @@ class Training:
 
     def loss(self):
         # write a loss thats worth something
-        loss = BCEWithLogitsLoss()
+        # loss = BCEWithLogitsLoss()
+        loss = CEL()
         return loss
 
     def logger(self):
@@ -160,7 +161,7 @@ class Training:
             if epoch % self.config['train']['chkpnt_step'] == 0 and epoch > 0:
 
                 out_path = os.path.join(self.config['log_dir'], self.config['train']['name'])
-                out_path = os.path.join(out_path, self.config['model']['model_type'] +
+                out_path = os.path.join(out_path, self.config['experiment_name'] + self.config['model']['model_type'] +
                                             '_lr' + str(self.training['learning_rate']['base_rate']) +
                                             '_bs' + str(self.training['batch']))
                 if not os.path.exists(out_path):

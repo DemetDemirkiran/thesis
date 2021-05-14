@@ -11,7 +11,6 @@ import numpy as np
 import sklearn
 from sklearn.metrics import accuracy_score
 from src.logger import Logger
-from src.model.resnet import ResNet50
 from src.model.call_model import Call_Model
 from src.dataloader.chexpert import Chexpert, Chexpert_smaller
 from src.dataloader.chest14 import XrayLoader14
@@ -25,7 +24,6 @@ from sklearn.linear_model import RidgeClassifierCV
 
 ## binary case & roc_auc_score
 from sklearn.linear_model import LogisticRegression
-
 
 class EvalTest:
     def __init__(self, config, check_pnt=None, model=None):
@@ -132,55 +130,29 @@ class EvalTest:
                 pred_list.append(pred)
                 label_list.append(targets)
                 i += 1
-                if i > 100:
-                    break
+                # if i > 10:
+                #     break
                 # get prediction of images for target, do  it for every class then compute precision
         pred_list = torch.vstack(pred_list)
         label_list = torch.vstack(label_list)
         auc, fpr, tpr = self.area_under_curve(label_list, pred_list)
-        ...
-
-
-
-
-
-
-
-
-
-
-
-
+        return auc, fpr, tpr
 
 
     def __call__(self, *args, **kwargs):
         dataloader = self.dataloader()
         loss = self.loss()
         model = self.model_type()
+        model.eval()
         area_under_curve = self.area_under_curve
         checkpoint = self.checkpoint
 
-        self.class_predictions(dataloader, model)
+        result, fpr, tpr = self.class_predictions(dataloader, model)
 
-        # with torch.no_grad():
-        #     total_accuracy = 0.0
-        #     for images, targets in tqdm(dataloader):
-        #         images = images.cuda()
-        #         targets = targets.cuda()
-        #         out = model(images)
-        #         auc_calc = area_under_curve(targets, out)
-        #
-        #         pred = out.data
-        #         pred = torch.nn.Sigmoid()(pred) > 0.5
-        #         pred = pred.cpu().numpy()
-        #         targets = targets.cpu().numpy()
-        #
-        #         iter_accuracy = accuracy_score(targets, pred)
-        #         total_accuracy += iter_accuracy / len(dataloader)
-        # print('area under the curve {}'.format(auc_calc))
-        # print('total accuracy {}'.format(total_accuracy))
-        # total_accuracy, auc_calc
-        return None
+        for k in np.sort(list(result.keys())):
+            print('{:.4f} '.format(result[k]))
+
+        return result, fpr, tpr
 
 
 if __name__ == '__main__':

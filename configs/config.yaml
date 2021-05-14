@@ -1,4 +1,4 @@
-root_path: "/home/demet/Desktop/CheXpert-v1.0-small"
+root_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
 
 ## Chest14: /home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize
 ## CheXpert: /home/demet/Desktop/CheXpert-v1.0-small
@@ -9,17 +9,17 @@ data:
   size: [224, 224]
 
 model:
-  model_type: "resnet_sa"
+  model_type: "cbam"
   number_classes: 15
 
 ## chex_small
 ## chest14
 
 train:
-  name: "chex_small"
-  data_path: "/home/demet/Desktop/CheXpert-v1.0-small"
+  name: "chest14"
+  data_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
   start_epoch: 0
-  end_epoch: 21
+  end_epoch: 31
   batch: 32
   num_workers: 0
   chkpnt_step: 5
@@ -41,12 +41,12 @@ train:
 test:
   name: "chest14"
   dataset_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
-  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/resnetsa_ch14_e1_lr0.0001_bs2.pth"
-  batch: 2
+  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/chest14/cbam_lr0.0001_bs32/20.pth"
+  batch: 64
   num_workers: 0
 
 
-experiment_name: "resnetsa_ch14_e1_lr0.0001_bs2.pth"
+experiment_name: "cel"
 log_dir: "/home/demet/PycharmProjects/thesis/training_logs"
 
 

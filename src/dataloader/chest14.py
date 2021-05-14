@@ -137,24 +137,6 @@ class XrayLoader14(data.Dataset):
         return img, label
 
 
-        # img_path = os.path.join(self.root, img_name)
-        # img = cv2.imread(img_path)
-        # img = cv2.resize(img, tuple(self.data_config['size']))
-        # img = self.transform(img)
-        # img = torch.from_numpy(img)
-        # target = self.parse_label(data)
-        # img = np.asarray(img)
-        # img = np.repeat(img, 3)
-        # meta = self.metadata[img_name]
-        # label = torch.zeros(15, dtype=torch.float)
-        # label[meta['labels']] = 1
-        # c, h, w = img.shape
-        # if c > 1:
-        #     img = img[0].unsqueeze(0)
-        #
-        # return img, label
-
-
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
 

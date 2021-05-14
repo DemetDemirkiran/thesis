@@ -20,7 +20,7 @@ KEYS = ['No Finding',
         'Pleural Effusion',
         'Pleural Other',
         'Fracture',
-        'Support Devices\n',
+        'Support Devices',
         'Uncertainty']
 
 
