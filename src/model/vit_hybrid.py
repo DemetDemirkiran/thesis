@@ -11,22 +11,19 @@ class Model_ViT(nn.Module):
         self.model.head = nn.Linear(self.model.head.in_features, num_classes)
 
     def forward(self, img):
-
         img = self.model(img)
 
         return img
 
 
-class ViT_Hybrid(ResNet50):
+class ViT_Hybrid(nn.Module):
     def __init__(self, num_classes, pretrained=True):
-        super(ViT_Hybrid, self).__init__(num_classes)
+        super(ViT_Hybrid, self).__init__()
 
-        self.hybrid = Model_ViT(2048)
+        self.model = timm.create_model('vit_base_resnet50_224_in21k', pretrained=True)
+        self.model.head = nn.Linear(self.model.head.in_features, num_classes)
 
     def forward(self, img):
-
-        img = self.encoder(img)
-        img = self.fc(img.squeeze())
         img = self.model(img)
 
         return img

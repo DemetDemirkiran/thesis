@@ -1,4 +1,4 @@
-root_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+root_path: "/home/demet/Desktop/CheXpert-v1.0-small"
 
 ## Chest14: /home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize
 ## CheXpert: /home/demet/Desktop/CheXpert-v1.0-small
@@ -16,16 +16,14 @@ model:
 ## chest14
 
 train:
-  name: "chest14"
-  data_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+  name: "chex_small"
+  data_path: "/home/demet/Desktop/CheXpert-v1.0-small"
   start_epoch: 0
   end_epoch: 31
-  batch: 32
+  batch: 16
   num_workers: 0
   chkpnt_step: 5
-  loss:
-    classification:
-    metric:
+  loss: "bce"
 
   learning_rate:
     momentum: 0.9
@@ -40,13 +38,13 @@ train:
 
 test:
   name: "chest14"
-  dataset_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
-  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/chest14/cbam_lr0.0001_bs32/20.pth"
-  batch: 64
+  dataset_path: "/home/demet/Desktop/CheXpert-v1.0-small"
+  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/chest14/bcecbam_lr0.0001_bs16/5.pth"
+  batch: 128
   num_workers: 0
 
 
-experiment_name: "cel"
+experiment_name: "bce"
 log_dir: "/home/demet/PycharmProjects/thesis/training_logs"
 
 

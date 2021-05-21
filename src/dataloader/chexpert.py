@@ -33,7 +33,6 @@ class Chexpert:
         self.test_csv_path = os.path.join(self.root, 'valid.csv')
         self.transform = transforms.Compose([transforms.ToTensor()])
 
-
         if self.mode == 'train':
             self.header, self.csv = parse_csv(self.train_csv_path)
         elif 'test':
@@ -86,7 +85,6 @@ class Chexpert_smaller(Chexpert):
         self.csv = self.csv[:22341]
 
 
-
 if __name__ == '__main__':
 
     with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config.yaml"), 'r') as f:
@@ -95,5 +93,4 @@ if __name__ == '__main__':
     dl = DataLoader(c)
 
     for img_batch in tqdm(dl):
-
         ...

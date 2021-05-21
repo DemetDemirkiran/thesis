@@ -12,6 +12,7 @@ import sklearn
 from sklearn.metrics import accuracy_score
 from src.logger import Logger
 from src.model.call_model import Call_Model
+from src.loss.call_loss import Call_Loss
 from src.dataloader.chexpert import Chexpert, Chexpert_smaller
 from src.dataloader.chest14 import XrayLoader14
 from tensorboardX import SummaryWriter
@@ -64,11 +65,12 @@ class Training:
 
         return model_type().cuda()
 
-    def loss(self):
-        # write a loss thats worth something
-        # loss = BCEWithLogitsLoss()
-        loss = CEL()
-        return loss
+    def call_loss(self):
+
+        loss_type = Call_Loss(
+            loss_type=self.config['train']['loss']
+        )
+        return loss_type()
 
     def logger(self):
         base_path = os.path.join(self.training['root_path'])
@@ -119,7 +121,7 @@ class Training:
     def __call__(self, *args, **kwargs):
 
         dataloader = self.dataloader()
-        loss = self.loss()
+        loss = self.call_loss()
         model = self.model_type()
         area_under_curve = self.area_under_curve
         optimizer = torch.optim.SGD(params=model.parameters(),

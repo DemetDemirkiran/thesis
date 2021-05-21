@@ -30,6 +30,7 @@ class_dict = {'Atelectasis': 0,
               'No Finding': 14
               }
 
+
 def load_text(path):
     with open(path, 'r') as f:
         text = f.readlines()
@@ -85,11 +86,11 @@ class XrayLoader14(data.Dataset):
 
     def __len__(self):
         if self.mode == 'train':
-            return len(self.trainlist) #// 50
+            return len(self.trainlist)  # // 50
         elif self.mode == 'eval':
-            return len(self.evallist) #// 50
+            return len(self.evallist)  # // 50
         elif self.mode == 'test':
-            return len(self.testlist) #// 50
+            return len(self.testlist)  # // 50
         else:
             raise ValueError('Wrong mode')
 
@@ -102,7 +103,6 @@ class XrayLoader14(data.Dataset):
             else:
                 target[idx] = 0
         return target
-
 
     def __getitem__(self, item):
 
