@@ -82,7 +82,7 @@ class Chexpert_smaller(Chexpert):
     def __init__(self, config):
         super(Chexpert_smaller, self).__init__(config)
 
-        self.csv = self.csv[:22341]
+        self.csv = self.csv[:56060]
 
 
 if __name__ == '__main__':

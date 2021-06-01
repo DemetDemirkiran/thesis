@@ -7,10 +7,12 @@ class CEL(nn.Module):
         super(CEL, self).__init__()
         self.softmax = nn.Softmax(-1)
 
-    def forward(self, pred, target):
-        out = self.softmax(pred)
+    def forward(self, out, target):
+        out = self.softmax(out)
+        # Clamp values to avoid underflow (log(0))
+        out = torch.clamp(out, min=1e-6)
         positives = -torch.log(out[torch.where(target == 1)])
-        negatives = -torch.log(1 - out[torch.where(target == 0)])
+        negatives = -torch.log(torch.clamp(1 - out[torch.where(target == 0)], min=1e-6))
 
         return positives.sum() + negatives.sum()
 

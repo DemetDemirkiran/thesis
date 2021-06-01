@@ -4,9 +4,9 @@ import torch.nn as nn
 from scipy.spatial.distance import cdist
 
 
-class ContrastiveAverage(nn.Module):
+class TripletAverage(nn.Module):
     def __init__(self, margin=1.2, threshold=0.5):
-        super(ContrastiveAverage, self).__init__()
+        super(TripletAverage, self).__init__()
         self.margin = margin
         self.threshold = threshold
         if self.margin is None:  # use soft-margin
@@ -15,15 +15,17 @@ class ContrastiveAverage(nn.Module):
             self.Loss = nn.TripletMarginLoss(margin=margin, p=2)
 
     def loss(self, anchor, pos, neg):
-        anchor = torch.nn.functional.normalize(anchor, dim=-1)
-        pos = torch.nn.functional.normalize(pos, dim=-1)
-        neg = torch.nn.functional.normalize(neg, dim=-1)
-        pos_distance = torch.norm(anchor - pos, dim=1)
-        neg_distance = torch.norm(anchor - neg, dim=1)
-        loss = 0.5 * torch.pow(pos_distance, 2) + \
-               0.5 * torch.pow(torch.clamp(self.margin - neg_distance, min=0), 2)
-
-        return loss.sum()
+        if self.margin is None:
+            num_samples = anchor.shape[1]
+            y = torch.ones((num_samples, 1)).view(-1)
+            if anchor.is_cuda:
+                y = y.cuda()
+            ap_dist = torch.norm(anchor - pos, 2, dim=0).view(-1)
+            an_dist = torch.norm(anchor - neg, 2, dim=0).view(-1)
+            loss = self.Loss(an_dist - ap_dist, y)
+        else:
+            loss = self.Loss(anchor, pos, neg)
+        return loss
 
     def forward(self, embedding, labels):
         label_distances = cdist(labels.data.cpu(), labels.data.cpu(), 'jaccard')

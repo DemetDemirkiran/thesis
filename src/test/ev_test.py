@@ -56,7 +56,7 @@ class EvalTest:
         batch_sz = self.test['batch']
         # learning_rate = self.training['learning_rate']
         dataloader = DataLoader(dataset=data, batch_size=batch_sz,
-                                num_workers=0, pin_memory=True, drop_last=True)
+                                num_workers=0, pin_memory=True, drop_last=False)
 
         return dataloader
 
