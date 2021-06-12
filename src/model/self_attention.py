@@ -56,7 +56,7 @@ class ResNet50_SA(ResNet50):
     def forward(self, img):
 
         img = self.encoder(img)
-        img = self.self_attention(img)
-        img = self.fc(img.squeeze())
+        emb = self.self_attention(img)
+        img = self.fc(self.pool(emb).squeeze())
 
-        return img
+        return img, emb

@@ -12,13 +12,13 @@ import torchvision.models as models
 class ResNet50(nn.Module):
     def __init__(self, num_classes):
         super(ResNet50, self).__init__()
-
-        self.encoder = nn.Sequential(*list(models.resnet50(pretrained=True).children())[:-1])
+        self.encoder = nn.Sequential(*list(models.resnet50(pretrained=True).children())[:-2])
+        self.pool = nn.AdaptiveAvgPool2d(1)
         self.fc = nn.Linear(2048, num_classes)
 
     def forward(self, img):
 
-        img = self.encoder(img)
-        img = self.fc(img.squeeze())
+        emb = self.encoder(img)
+        img = self.fc(self.pool(emb).squeeze())
 
-        return img
+        return img, emb

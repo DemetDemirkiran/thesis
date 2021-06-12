@@ -1,4 +1,4 @@
-root_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+root_path: "/home/demet/Desktop/CheXpert-v1.0-small"
 
 ## Chest14: /home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize
 ## CheXpert: /home/demet/Desktop/CheXpert-v1.0-small
@@ -9,7 +9,7 @@ data:
   size: [224, 224]
 
 model:
-  model_type: "resnet50"
+  model_type: "vit_hybrid"
   number_classes: 15
 
 ## chex_small - does a smaller amount because teh dataset was too big for testing
@@ -17,14 +17,19 @@ model:
 ## chex - when you want to do the entire dataset
 
 train:
-  name: "chest14"
-  data_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+  name: "chex_small"
+  data_path: "/home/demet/Desktop/CheXpert-v1.0-small"
   start_epoch: 0
   end_epoch: 6
   batch: 16
   num_workers: 0
   chkpnt_step: 5
   loss: "cel"
+  metric:
+
+## loss: bce , cel , wcel
+## metric: contrastive , triplet , or blank for none
+
 
   learning_rate:
     momentum: 0.9
@@ -38,9 +43,9 @@ train:
 ## chest14
 
 test:
-  name: "chest14"
-  dataset_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
-  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/chest14/celresnet50_lr0.0001_bs16/5.pth"
+  name: "chex_small"
+  dataset_path: "/home/demet/Desktop/CheXpert-v1.0-small"
+  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/chex_small/celvit_hybrid_lr0.0001_bs16/5.pth"
   batch: 128
   num_workers: 0
 

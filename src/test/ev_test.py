@@ -121,7 +121,7 @@ class EvalTest:
             for images, targets in tqdm(dataloader):
                 images = images.cuda()
                 targets = targets.cuda()
-                out = model(images)
+                out, _ = model(images)
 
                 pred = out.data
                 # pred = torch.nn.Sigmoid()(pred) > 0.5

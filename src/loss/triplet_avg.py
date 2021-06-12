@@ -28,6 +28,7 @@ class TripletAverage(nn.Module):
         return loss
 
     def forward(self, embedding, labels):
+        embedding = torch.nn.functional.normalize(embedding)
         label_distances = cdist(labels.data.cpu(), labels.data.cpu(), 'jaccard')
         label_positives = label_distances <= self.threshold
         label_positives = label_positives - np.eye(label_positives.shape[0])

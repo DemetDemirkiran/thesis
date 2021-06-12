@@ -10,10 +10,10 @@ class ViT(nn.Module):
         self.model.head = nn.Linear(self.model.head.in_features, num_classes)
 
     def forward(self, img):
+        emb = self.model.forward_features(img)
+        img = self.model.head(emb)
 
-        img = self.model(img)
-
-        return img
+        return img, emb
 
 
 

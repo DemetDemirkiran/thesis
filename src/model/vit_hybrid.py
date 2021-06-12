@@ -24,6 +24,7 @@ class ViT_Hybrid(nn.Module):
         self.model.head = nn.Linear(self.model.head.in_features, num_classes)
 
     def forward(self, img):
-        img = self.model(img)
+        emb = self.model.forward_features(img)
+        img = self.model.head(emb)
 
-        return img
+        return img, emb

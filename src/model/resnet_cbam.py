@@ -135,8 +135,8 @@ class ResNet50_CBAM(ResNet50):
 
     def forward(self, img):
         img = self.encoder(img)
-        img = self.sa(img)
-        img = self.fc(img.squeeze())
+        emb = self.sa(img)
+        img = self.fc(self.pool(emb).squeeze())
 
-        return img
+        return img, emb
 

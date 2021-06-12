@@ -12,7 +12,7 @@ import sklearn
 from sklearn.metrics import accuracy_score
 from src.logger import Logger
 from src.model.call_model import Call_Model
-from src.loss.call_loss import Call_Loss
+from src.loss.call_loss import Call_Loss, Loss_Wrapper
 from src.dataloader.chexpert import Chexpert, Chexpert_smaller
 from src.dataloader.chest14 import XrayLoader14
 from tensorboardX import SummaryWriter
@@ -66,11 +66,11 @@ class Training:
         return model_type().cuda()
 
     def call_loss(self):
-
-        loss_type = Call_Loss(
-            loss_type=self.config['train']['loss']
-        )
-        return loss_type()
+        loss_type = Loss_Wrapper(self.config['train']['loss'], self.config['train']['metric'])
+        # loss_type = Call_Loss(
+        #     loss_type=self.config['train']['loss']
+        # )
+        return loss_type
 
     def logger(self):
         base_path = os.path.join(self.training['root_path'])
@@ -141,9 +141,9 @@ class Training:
                 optimizer.zero_grad()  # resets the gradients it needs to update
                 images = images.cuda()
                 targets = targets.cuda()
-                out = model(images)
+                out, emb = model(images)
                 # auc_calc.append(area_under_curve(targets, out))
-                iter_loss = loss(out, targets)
+                iter_loss = loss(emb, out, targets)
                 pred = out.data
                 pred = torch.nn.Sigmoid()(pred) > 0.5
                 pred = pred.cpu().numpy()
