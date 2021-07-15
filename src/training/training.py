@@ -124,9 +124,10 @@ class Training:
         loss = self.call_loss()
         model = self.model_type()
         area_under_curve = self.area_under_curve
-        optimizer = torch.optim.SGD(params=model.parameters(),
-                                    lr=self.training['learning_rate']['base_rate'],
-                                    momentum=self.training['learning_rate']['momentum'])
+        optimizer = torch.optim.Adam(params=model.parameters(),
+                                    lr=self.training['learning_rate']['base_rate']
+                                    #momentum=self.training['learning_rate']['momentum']
+                                     )
         lr_scheduler = StepLR(optimizer=optimizer,
                               step_size=self.training['learning_rate']['steps'],
                               gamma=self.training['learning_rate']['decay'])
@@ -136,6 +137,7 @@ class Training:
             total_loss = 0.0
             total_accuracy = 0.0
             auc_calc = []
+            iterator = 0
 
             for images, targets in tqdm(dataloader):
                 optimizer.zero_grad()  # resets the gradients it needs to update
@@ -151,6 +153,10 @@ class Training:
                 iter_accuracy = accuracy_score(targets, pred)
                 total_accuracy += iter_accuracy / len(dataloader)
                 iter_loss.backward()
+                # instead of iter backward set up every how many batches
+                # if iterator % accum == 0
+                #   iter_loss.backward()
+                #   optimizer.step()
                 optimizer.step()
                 total_loss += iter_loss.data / len(dataloader)
             # print(total_loss.data)
