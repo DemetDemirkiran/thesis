@@ -27,6 +27,7 @@ from sklearn.linear_model import RidgeClassifierCV
 from sklearn.linear_model import LogisticRegression
 from src.loss.wcel import CEL, WCEL
 
+
 class Training:
     def __init__(self, config):
         super(Training, self).__init__()
@@ -112,7 +113,7 @@ class Training:
 
             auc_calc = []
             for t, so in zip(targets, soft_out):
-                #auc_calc.append(roc_auc_score(t, so))
+                # auc_calc.append(roc_auc_score(t, so))
                 fpr, tpr, thresholds = roc_curve(t, so)
                 auc_calc.append(auc(fpr, tpr))
 
@@ -125,9 +126,22 @@ class Training:
         model = self.model_type()
         area_under_curve = self.area_under_curve
         optimizer = torch.optim.Adam(params=model.parameters(),
-                                    lr=self.training['learning_rate']['base_rate']
-                                    #momentum=self.training['learning_rate']['momentum']
+                                     lr=self.training['learning_rate']['base_rate']
+                                     # momentum=self.training['learning_rate']['momentum']
                                      )
+        if self.config['train']['metric'] == 'proxy':
+            optimizer = torch.optim.Adam([
+                                            {
+                                                **{'params': list(model.parameters())},
+                                            },
+                                            {  # proxy nca parameters
+                                                **{'params': list(loss.metric_loss.parameters())},
+                                            }
+                                         ],
+                                         lr=self.training['learning_rate']['base_rate'],
+                                         # momentum=self.training['learning_rate']['momentum']
+                                         )
+
         lr_scheduler = StepLR(optimizer=optimizer,
                               step_size=self.training['learning_rate']['steps'],
                               gamma=self.training['learning_rate']['decay'])
@@ -137,7 +151,6 @@ class Training:
             total_loss = 0.0
             total_accuracy = 0.0
             auc_calc = []
-            iterator = 0
 
             for images, targets in tqdm(dataloader):
                 optimizer.zero_grad()  # resets the gradients it needs to update
@@ -153,28 +166,25 @@ class Training:
                 iter_accuracy = accuracy_score(targets, pred)
                 total_accuracy += iter_accuracy / len(dataloader)
                 iter_loss.backward()
-                # instead of iter backward set up every how many batches
-                # if iterator % accum == 0
-                #   iter_loss.backward()
-                #   optimizer.step()
                 optimizer.step()
                 total_loss += iter_loss.data / len(dataloader)
             # print(total_loss.data)
             # print('area under the curve {} for epoch {}'.format(np.mean(auc_calc), epoch))
             print(
-                 ('epoch {} total loss {} total accuracy {}'.format(epoch,total_loss,total_accuracy)))
+                ('epoch {} total loss {} total accuracy {}'.format(epoch, total_loss, total_accuracy)))
 
-        # plot(loss_per_epoch, epoch, bsz, lr)
-        # Test script alternatively save each epoch ckpt and test each ckpt
+            # plot(loss_per_epoch, epoch, bsz, lr)
+            # Test script alternatively save each epoch ckpt and test each ckpt
             if epoch % self.config['train']['chkpnt_step'] == 0 and epoch > 0:
 
                 out_path = os.path.join(self.config['log_dir'], self.config['train']['name'])
                 out_path = os.path.join(out_path, self.config['experiment_name'] + self.config['model']['model_type'] +
-                                            '_lr' + str(self.training['learning_rate']['base_rate']) +
-                                            '_bs' + str(self.training['batch']))
+                                        '_lr' + str(self.training['learning_rate']['base_rate']) +
+                                        '_bs' + str(self.training['batch']))
                 if not os.path.exists(out_path):
                     os.makedirs(out_path)
-                torch.save(model.state_dict(), os.path.join(out_path,  str(epoch) + '.pth'))
+                torch.save(model.state_dict(), os.path.join(out_path, str(epoch) + '.pth'))
+
 
 if __name__ == '__main__':
     from src.training.training import Training

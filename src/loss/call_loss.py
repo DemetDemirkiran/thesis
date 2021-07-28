@@ -3,9 +3,10 @@ from torch.nn import BCEWithLogitsLoss, Module, AdaptiveMaxPool2d
 from src.loss.wcel import WCEL, CEL
 from src.loss.contrastive import ContrastiveAverage
 from src.loss.triplet_avg import TripletAverage
+from src.loss.proxynca import ProxyNCA
 
 CLASS_LOSS_TYPE = ['wcel', 'cel', 'bce']
-METRIC_LOSS_TYPE = ['triplet', 'contrastive']
+METRIC_LOSS_TYPE = ['triplet', 'contrastive', 'proxy']
 
 class Call_Loss:
     def __init__(self,
@@ -37,10 +38,11 @@ class Loss_Wrapper(Module):
             'bce': BCEWithLogitsLoss,
             'contrastive': ContrastiveAverage,
             'triplet': TripletAverage,
+            'proxy': ProxyNCA,
             None: lambda *args: None
         }
 
-        if class_type not in CLASS_LOSS_TYPE:
+        if class_type not in CLASS_LOSS_TYPE and class_type is not None:
             raise ValueError(
                 'Wrong loss {} '.format(class_type))
 
@@ -54,7 +56,12 @@ class Loss_Wrapper(Module):
         self.pool = AdaptiveMaxPool2d(1)
 
     def forward(self, emb, preds, targets):
-        cl = self.class_loss(preds, targets)
+
+        if self.class_loss is None:
+            cl = 0.0
+        else:
+            cl = self.class_loss(preds, targets)
+
         if self.metric_loss is None:
             ml = 0.0
         else:

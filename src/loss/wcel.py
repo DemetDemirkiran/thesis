@@ -17,7 +17,6 @@ class CEL(nn.Module):
         return positives.sum() + negatives.sum()
 
 
-
 class WCEL(CEL):
 
     def forward(self, out, target):
