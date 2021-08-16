@@ -24,6 +24,7 @@ from sklearn.linear_model import RidgeClassifierCV
 
 ## binary case & roc_auc_score
 from sklearn.linear_model import LogisticRegression
+import random
 
 class EvalTest:
     def __init__(self, config, check_pnt=None, model=None):
@@ -110,6 +111,18 @@ class EvalTest:
 
         return auc_d, fpr_d, tpr_d
 
+    def get_mask_indices(self, num_labels, mask, known_labels=0, epoch=1):
+            # sample random number of known labels during training
+        if known_labels > 0:
+            random.seed()
+            num_known = random.randint(0, int(num_labels * 0.75))
+        else:
+            num_known = 0
+
+        mask_indices = random.sample(range(num_labels), (num_labels - num_known))
+        mask.scatter_(1, torch.Tensor(mask_indices).long().repeat(mask.shape[0], 1).cuda(), -1)
+        return mask
+
     def class_predictions(self, dataloader, model):
         pred_list = []
         label_list = []
@@ -121,7 +134,14 @@ class EvalTest:
             for images, targets in tqdm(dataloader):
                 images = images.cuda()
                 targets = targets.cuda()
-                out, _ = model(images)
+                if self.model['model_type'] == 'ctran':
+                    out, emb, _ = model(images,
+                                        self.get_mask_indices(self.config['model']['number_classes'],
+                                        targets.clone())
+                                        )
+
+                else:
+                    out, _ = model(images)
 
                 pred = out.data
                 # pred = torch.nn.Sigmoid()(pred) > 0.5

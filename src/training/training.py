@@ -26,6 +26,8 @@ from sklearn.linear_model import RidgeClassifierCV
 ## binary case & roc_auc_score
 from sklearn.linear_model import LogisticRegression
 from src.loss.wcel import CEL, WCEL
+import random
+from sparsemax import Sparsemax
 
 
 class Training:
@@ -119,6 +121,18 @@ class Training:
 
         return auc_calc
 
+    def get_mask_indices(self, num_labels, mask, known_labels=0, epoch=1):
+            # sample random number of known labels during training
+        if known_labels > 0:
+            random.seed()
+            num_known = random.randint(0, int(num_labels * 0.75))
+        else:
+            num_known = 0
+
+        mask_indices = random.sample(range(num_labels), (num_labels - num_known))
+        mask.scatter_(1, torch.Tensor(mask_indices).long().repeat(mask.shape[0], 1).cuda(), -1)
+        return mask
+
     def __call__(self, *args, **kwargs):
 
         dataloader = self.dataloader()
@@ -156,7 +170,14 @@ class Training:
                 optimizer.zero_grad()  # resets the gradients it needs to update
                 images = images.cuda()
                 targets = targets.cuda()
-                out, emb = model(images)
+                if self.model['model_type'] == 'ctran':
+                    out, emb, _ = model(images,
+                                        self.get_mask_indices(self.config['model']['number_classes'],
+                                        targets.clone())
+                                        )
+
+                else:
+                    out, emb = model(images)
                 # auc_calc.append(area_under_curve(targets, out))
                 iter_loss = loss(emb, out, targets)
                 pred = out.data
@@ -172,7 +193,7 @@ class Training:
             # print('area under the curve {} for epoch {}'.format(np.mean(auc_calc), epoch))
             print(
                 ('epoch {} total loss {} total accuracy {}'.format(epoch, total_loss, total_accuracy)))
-
+            lr_scheduler.step()
             # plot(loss_per_epoch, epoch, bsz, lr)
             # Test script alternatively save each epoch ckpt and test each ckpt
             if epoch % self.config['train']['chkpnt_step'] == 0 and epoch > 0:

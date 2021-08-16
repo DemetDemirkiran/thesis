@@ -3,8 +3,9 @@ from src.model.self_attention import ResNet50_SA
 from src.model.resnet_cbam import ResNet50_CBAM
 from src.model.visual_transformer import ViT
 from src.model.vit_hybrid import ViT_Hybrid
+from src.model.ctran.ctran import CTranModel
 
-MODEL_TYPE = ['resnet50', 'resnet_sa', 'cbam', 'vit', 'vit_hybrid']
+MODEL_TYPE = ['resnet50', 'resnet_sa', 'cbam', 'vit', 'vit_hybrid', 'ctran']
 
 
 class Call_Model:
@@ -22,7 +23,8 @@ class Call_Model:
                 'resnet_sa': ResNet50_SA,
                 'cbam': ResNet50_CBAM,
                 'vit': ViT,
-                'vit_hybrid': ViT_Hybrid
+                'vit_hybrid': ViT_Hybrid,
+                'ctran': CTranModel
             }
             self.model_type = model_type
             self.num_classes = num_classes

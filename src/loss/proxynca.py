@@ -1,3 +1,14 @@
+"""
+@misc{Tschernezki2020,
+  author = {Tschernezki, Vadim and Sanakoyeu, Artsiom and Ommer, Bj{\"o}rn,},
+  title = {PyTorch Implementation of ProxyNCA},
+  year = {2020},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/dichotomies/proxy-nca}},
+}
+"""
+
 import torch
 from torch.nn import Parameter
 import torch.nn.functional as F
@@ -16,7 +27,7 @@ def binarize_and_smooth_labels(T, nb_classes, smoothing_const=0.1):
 
 class ProxyNCA(torch.nn.Module):
     def __init__(self,
-                 nb_classes = 30,
+                 nb_classes = 15,
                  sz_embedding = 2048,
                  smoothing_const=0.0,
                  scaling_x=1,

@@ -89,7 +89,7 @@ if __name__ == '__main__':
 
     with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config.yaml"), 'r') as f:
         config = yaml.load(f, yaml.SafeLoader)
-    c = Chexpert_smaller(config)
+    c = Chexpert(config)
     dl = DataLoader(c)
 
     for img_batch in tqdm(dl):
