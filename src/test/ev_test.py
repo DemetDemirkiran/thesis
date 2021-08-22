@@ -105,6 +105,7 @@ class EvalTest:
             fpr_d = dict()
             tpr_d = dict()
             auc_d = dict()
+
             for i in range(15):
                 fpr_d[i], tpr_d[i], _ = roc_curve(targets[:, i], soft_out[:, i])
                 auc_d[i] = auc(fpr_d[i], tpr_d[i])
@@ -178,7 +179,7 @@ class EvalTest:
 if __name__ == '__main__':
     from src.test.ev_test import EvalTest
 
-    with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config.yaml"), 'r') as f:
+    with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config_ubuntu.yaml"), 'r') as f:
         config = yaml.load(f, yaml.SafeLoader)
     t = EvalTest(config)
     t()

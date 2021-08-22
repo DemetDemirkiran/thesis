@@ -1,13 +1,13 @@
-"""
-@misc{Tschernezki2020,
-  author = {Tschernezki, Vadim and Sanakoyeu, Artsiom and Ommer, Bj{\"o}rn,},
-  title = {PyTorch Implementation of ProxyNCA},
-  year = {2020},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/dichotomies/proxy-nca}},
-}
-"""
+# """
+# @misc{Tschernezki2020,
+#   author = {Tschernezki, Vadim and Sanakoyeu, Artsiom and Ommer, Bj{\"o}rn,},
+#   title = {PyTorch Implementation of ProxyNCA},
+#   year = {2020},
+#   publisher = {GitHub},
+#   journal = {GitHub repository},
+#   howpublished = {\url{https://github.com/dichotomies/proxy-nca}},
+# }
+# """
 
 import torch
 from torch.nn import Parameter

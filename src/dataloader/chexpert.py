@@ -87,7 +87,7 @@ class Chexpert_smaller(Chexpert):
 
 if __name__ == '__main__':
 
-    with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config.yaml"), 'r') as f:
+    with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config_ubuntu.yaml"), 'r') as f:
         config = yaml.load(f, yaml.SafeLoader)
     c = Chexpert(config)
     dl = DataLoader(c)

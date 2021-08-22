@@ -27,7 +27,6 @@ from sklearn.linear_model import RidgeClassifierCV
 from sklearn.linear_model import LogisticRegression
 from src.loss.wcel import CEL, WCEL
 import random
-from sparsemax import Sparsemax
 
 
 class Training:
@@ -210,7 +209,7 @@ class Training:
 if __name__ == '__main__':
     from src.training.training import Training
 
-    with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config.yaml"), 'r') as f:
+    with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config_ubuntu.yaml"), 'r') as f:
         config = yaml.load(f, yaml.SafeLoader)
     t = Training(config)
     t()

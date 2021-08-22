@@ -3,13 +3,13 @@ root_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
 ## Chest14: /home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize
 ## CheXpert: /home/demet/Desktop/CheXpert-v1.0-small
 
-mode: "test"
+mode: "train"
 
 data:
   size: [224, 224]
 
 model:
-  model_type: "ctran"
+  model_type: "resnet50"
   number_classes: 15
 
 ## chex_small - does a smaller amount because teh dataset was too big for testing
@@ -20,11 +20,11 @@ train:
   name: "chest14"
   data_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
   start_epoch: 0
-  end_epoch: 7
+  end_epoch: 6
   batch: 16
   num_workers: 0
-  chkpnt_step: 3
-  loss: "cel"
+  chkpnt_step: 1
+  loss: "focal"
   metric:
 
 ## loss: bce , cel , wcel
@@ -45,13 +45,13 @@ train:
 test:
   name: "chest14"
   dataset_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
-  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/chest14/lr_scheduler_cel_ctran_lr0.0001_bs16/6.pth"
+  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/resnet50/chest14/normalized_focal_resnet50_lr0.0001_bs16/1.pth"
   batch: 128
   num_workers: 0
 
 
-experiment_name: "lr_scheduler_cel_"
-log_dir: "/home/demet/PycharmProjects/thesis/training_logs"
+experiment_name: "normalized_focal_"
+log_dir: "/home/demet/PycharmProjects/thesis/training_logs/resnet50"
 
 
 

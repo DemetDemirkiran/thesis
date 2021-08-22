@@ -1,22 +1,22 @@
-"""
-@article{lanchantin2020general,
-  title={General Multi-label Image Classification with Transformers},
-  author={Lanchantin, Jack and Wang, Tianlu and Ordonez, Vicente and Qi, Yanjun},
-  journal={arXiv preprint arXiv:2011.14027},
-  year={2020}
-}
-"""
-
-"""
-@misc{
-  title={General Multi-label Image Classification with Transformers},
-  author={Lanchantin, Jack and Wang, Tianlu and Ordonez, Vicente and Qi, Yanjun},
-  year = {2020},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/QData/C-Tran}
-  }
-"""
+# """
+# @article{lanchantin2020general,
+#   title={General Multi-label Image Classification with Transformers},
+#   author={Lanchantin, Jack and Wang, Tianlu and Ordonez, Vicente and Qi, Yanjun},
+#   journal={arXiv preprint arXiv:2011.14027},
+#   year={2020}
+# }
+# """
+#
+# """
+# @misc{
+#   title={General Multi-label Image Classification with Transformers},
+#   author={Lanchantin, Jack and Wang, Tianlu and Ordonez, Vicente and Qi, Yanjun},
+#   year = {2020},
+#   publisher = {GitHub},
+#   journal = {GitHub repository},
+#   howpublished = {\url{https://github.com/QData/C-Tran}
+#   }
+# """
 
 import numpy as np
 import torch

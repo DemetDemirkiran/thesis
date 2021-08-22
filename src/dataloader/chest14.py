@@ -76,7 +76,9 @@ class XrayLoader14(data.Dataset):
         self.config = config
         self.mode = self.config['mode']
         self.root = self.config['root_path']
-        self.transform = transforms.Compose([transforms.ToTensor()])
+        self.transform = transforms.Compose([transforms.ToTensor(),
+                                             transforms.Normalize((0.4901, 0.4901, 0.4901), (0.230188, 0.230188, 0.230188))]
+                                            )
         self.train_path = os.path.join(self.root, 'train_val_list.txt')
         self.test_path = os.path.join(self.root, 'test_list.txt')
         self.meta_path = os.path.join(self.root, 'Data_Entry_2017_v2020.csv')
@@ -140,7 +142,7 @@ class XrayLoader14(data.Dataset):
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
 
-    with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config.yaml"), 'r') as f:
+    with open(os.path.abspath("/home/demet/PycharmProjects/thesis/configs/config_ubuntu.yaml"), 'r') as f:
         config = yaml.load(f, yaml.SafeLoader)
     c = XrayLoader14(config)
     dl = DataLoader(c)
