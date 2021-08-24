@@ -31,7 +31,10 @@ class Chexpert:
         self.root = self.config['root_path']
         self.train_csv_path = os.path.join(self.root, 'train.csv')
         self.test_csv_path = os.path.join(self.root, 'valid.csv')
-        self.transform = transforms.Compose([transforms.ToTensor()])
+        self.transform = transforms.Compose([transforms.ToTensor(),
+                                             transforms.Normalize((0.4612, 0.4612, 0.4612),
+                                                                  (0.2810, 0.2810, 0.2810))]
+                                            )
 
         if self.mode == 'train':
             self.header, self.csv = parse_csv(self.train_csv_path)

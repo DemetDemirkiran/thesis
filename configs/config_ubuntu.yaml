@@ -1,4 +1,4 @@
-root_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
+root_path: "/home/demet/Desktop/CheXpert-v1.0-small"
 
 ## Chest14: /home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize
 ## CheXpert: /home/demet/Desktop/CheXpert-v1.0-small
@@ -20,14 +20,14 @@ train:
   name: "chest14"
   data_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
   start_epoch: 0
-  end_epoch: 6
+  end_epoch: 4
   batch: 16
   num_workers: 0
   chkpnt_step: 1
-  loss: "focal"
-  metric:
+  loss:
+  metric: "proxy"
 
-## loss: bce , cel , wcel
+## loss: bce , cel , wcel , focal
 ## metric: contrastive , triplet , or blank for none
 
 
@@ -45,13 +45,13 @@ train:
 test:
   name: "chest14"
   dataset_path: "/home/demet/Desktop/Chest_Dataset/Chest_Dataset_Resize"
-  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/resnet50/chest14/normalized_focal_resnet50_lr0.0001_bs16/1.pth"
+  checkpoint_path: "/home/demet/PycharmProjects/thesis/training_logs/resnet50/chest14/normalized_proxy_resnet50_lr0.0001_bs16/12.pth"
   batch: 128
   num_workers: 0
 
 
-experiment_name: "normalized_focal_"
-log_dir: "/home/demet/PycharmProjects/thesis/training_logs/resnet50"
+experiment_name: "normalized_proxy_"
+log_dir: "/home/demet/PycharmProjects/thesis/training_logs/resnet50/proxy"
 
 
 
