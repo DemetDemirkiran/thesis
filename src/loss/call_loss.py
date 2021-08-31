@@ -5,9 +5,10 @@ from src.loss.contrastive import ContrastiveAverage
 from src.loss.triplet_avg import TripletAverage
 from src.loss.proxynca import ProxyNCA
 from src.loss.focal import FocalLoss
+from src.loss.oml import SmoothAP
 
 CLASS_LOSS_TYPE = ['wcel', 'cel', 'bce', 'focal']
-METRIC_LOSS_TYPE = ['triplet', 'contrastive', 'proxy']
+METRIC_LOSS_TYPE = ['triplet', 'contrastive', 'proxy', 'oml']
 
 class Call_Loss:
     def __init__(self,
@@ -41,6 +42,7 @@ class Loss_Wrapper(Module):
             'triplet': TripletAverage,
             'proxy': ProxyNCA,
             'focal': FocalLoss,
+            'oml': SmoothAP,
             None: lambda *args: None
         }
 
