@@ -28,7 +28,7 @@ def binarize_and_smooth_labels(T, nb_classes, smoothing_const=0.1):
 class ProxyNCA(torch.nn.Module):
     def __init__(self,
                  nb_classes = 15,
-                 sz_embedding = 2048,
+                 sz_embedding = 768,
                  smoothing_const=0.0,
                  scaling_x=1,
                  scaling_p=3

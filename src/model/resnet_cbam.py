@@ -1,3 +1,13 @@
+# Official PyTorch code for "BAM: Bottleneck Attention Module (BMVC2018)" and "CBAM: Convolutional Block Attention Module (ECCV2018)"
+# https://github.com/Jongchan/attention-module
+# @inproceedings{cbam,
+#   title={CBAM: Convolutional Block Attention Module},
+#   author={Sanghyun Woo and Jongchan Park and Joon-Young Lee and In-So Kweon},
+#   booktitle={ECCV},
+#   year={2018}
+# }
+
+
 import math
 import torch
 from torch import nn

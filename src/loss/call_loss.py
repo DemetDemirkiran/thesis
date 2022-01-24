@@ -69,7 +69,9 @@ class Loss_Wrapper(Module):
         if self.metric_loss is None:
             ml = 0.0
         else:
-            ml = self.metric_loss(self.pool(emb).squeeze(), targets)
+            if len(emb.shape) > 2:
+                emb = self.pool(emb)
+            ml = self.metric_loss(emb.squeeze(), targets)
 
         return cl + ml
 

@@ -140,6 +140,23 @@ class XrayLoader14(data.Dataset):
 
         return img, label
 
+    def get_label(self, item):
+        if self.mode == 'train':
+            img_list = self.trainlist
+        elif self.mode == 'eval':
+            img_list = self.evallist
+        elif self.mode == 'test':
+            img_list = self.testlist
+        else:
+            raise ValueError('Wrong mode')
+
+        img_name = img_list[item]
+        meta = self.metadata[img_name]
+        label = torch.zeros(15, dtype=torch.float)
+        label[meta['labels']] = 1
+
+        return label
+
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt

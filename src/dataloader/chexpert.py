@@ -80,6 +80,11 @@ class Chexpert:
         target = self.parse_label(data)
         return img, target
 
+    def get_label(self, index):
+        data = {k: v for k, v in zip(self.header, self.csv[index])}
+        target = self.parse_label(data)
+        return target
+
 
 class Chexpert_smaller(Chexpert):
     def __init__(self, config):
